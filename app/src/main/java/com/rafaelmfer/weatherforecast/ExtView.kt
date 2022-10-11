@@ -2,6 +2,10 @@ package com.rafaelmfer.weatherforecast
 
 import android.os.SystemClock
 import android.view.View
+import androidx.annotation.ColorRes
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -46,3 +50,16 @@ val View.gone: View
         visibility = View.GONE
         return this
     }
+
+fun View.addRippleEffect(@ColorRes colorOfBackground: Int = 0) {
+    AppCompatResources.getDrawable(
+        context,
+        R.drawable.ripple_shape_rect
+    )?.also { drawable ->
+        val wrappedDrawable = DrawableCompat.wrap(drawable)
+        if (colorOfBackground != 0) {
+            DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(context, colorOfBackground))
+        }
+        background = wrappedDrawable
+    }
+}

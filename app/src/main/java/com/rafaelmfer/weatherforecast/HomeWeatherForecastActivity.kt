@@ -3,7 +3,9 @@ package com.rafaelmfer.weatherforecast
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doOnTextChanged
 import com.bumptech.glide.Glide
 import com.rafaelmfer.weatherforecast.data.remote.response.ForecastResponse
 import com.rafaelmfer.weatherforecast.data.remote.response.SearchAutoCompleteResponseItem
@@ -11,16 +13,22 @@ import com.rafaelmfer.weatherforecast.data.repository.State
 import com.rafaelmfer.weatherforecast.databinding.ActivityMainBinding
 import com.rafaelmfer.weatherforecast.databinding.IncludeWeatherMinMaxByDayBinding
 import com.rafaelmfer.weatherforecast.presentation.HomeWeatherForecastViewModel
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class HomeWeatherForecastActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<HomeWeatherForecastViewModel>()
     private val binding by viewBinding(ActivityMainBinding::inflate)
+
+    private val cityAdapter = CitiesAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +38,7 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
 
     private fun ActivityMainBinding.onViewCreated() {
         observables()
+        setupSearchBoxContainer()
         mbtHomeSearch.onSingleClick {
             clSearch.visible
             showSearchBox()
@@ -104,6 +113,8 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
                 )
             }
             is State.Error -> {
+                pbHomeWeatherForecast.gone
+                groupHomeWeatherForecast.gone
             }
         }
     }
@@ -121,41 +132,83 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
     private fun ActivityMainBinding.handlerSearchState(state: State<out List<SearchAutoCompleteResponseItem>>) {
         when (state) {
             is State.Loading -> {
-
+                pbSearchBox.visible
             }
             is State.Success -> {
-
+                pbSearchBox.gone
+                rvSearchCities.visibility = if (state.model.isEmpty()) View.GONE else View.VISIBLE
+                cityAdapter.apply {
+                    updateCityList(state.model)
+                    setActionListener { city ->
+                        viewModel.getForecast(city)
+                        rvSearchCities.gone
+                        mbtSearchBoxCollapse.gone
+                        hideKeyboard()
+                        hideSearchBox()
+                    }
+                }
             }
             is State.Error -> {
+                pbSearchBox.gone
+            }
+        }
+    }
 
+    private fun clearCityList() {
+        cityAdapter.updateCityList(listOf())
+    }
+
+    private fun ActivityMainBinding.setupSearchBoxContainer() {
+        Observable.create<String> { emitter ->
+            tieSearchBox.doOnTextChanged { text, _, _, _ ->
+                text?.let {
+                    emitter.onNext(it.toString())
+                }
+            }
+        }
+            .debounce(500, TimeUnit.MILLISECONDS)
+            .subscribeOn(Schedulers.single())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                viewModel.searchCities(it)
+            }
+
+        rvSearchCities.adapter = cityAdapter
+        mbtSearchBoxCollapse.apply {
+            visibility = if (cityAdapter.itemCount == 0) View.GONE else View.VISIBLE
+            onSingleClick {
+                rvSearchCities.gone
+                it.gone
             }
         }
     }
 
     private fun ActivityMainBinding.hideSearchBox() {
         clSearch.animate()
-//            .translationY(-clSearch.height.toFloat())
+            .translationY(-clSearch.height.toFloat())
             .alpha(0F)
             .setDuration(500L)
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator?) {
                     super.onAnimationEnd(animation)
-                    clSearch.gone
                     clSearch.animate().setListener(null)
+                    clSearch.gone
                 }
             })
             .start()
+
+        tieSearchBox.setText("")
+        clearCityList()
     }
 
     private fun ActivityMainBinding.showSearchBox() {
         clSearch.animate()
-//            .translationY(0F)
+            .translationY(0F)
             .alpha(1F)
             .setDuration(500L)
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationStart(animation: Animator?) {
                     super.onAnimationStart(animation)
-                    clSearch.visible
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
