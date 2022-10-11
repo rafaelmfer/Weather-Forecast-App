@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="@drawable/home_image"
     tools:context=".HomeWeatherForecastActivity">
 
@@ -30,7 +31,7 @@
             android:id="@+id/tv_home_clock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
+            android:layout_marginTop="40dp"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:padding="4dp"
@@ -41,16 +42,84 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_home_search_icon"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mbt_home_search"
+            style="@style/Button.IconOnly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="20dp"
             android:contentDescription="@string/search"
-            android:src="@drawable/ic_search"
+            android:elevation="0dp"
+            app:elevation="0dp"
+            app:icon="@drawable/ic_search"
+            app:iconTint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/shape_rect_rounded_bottom_32"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mbt_back_search"
+                style="@style/Button.IconOnly"
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                app:icon="@drawable/ic_full_arrow_left"
+                app:iconGravity="textStart"
+                app:iconTint="#444E72"
+                app:layout_constraintBottom_toBottomOf="@id/til_search_box"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/til_search_box" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_search_box"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="27dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="27dp"
+                app:boxCornerRadiusBottomEnd="15dp"
+                app:boxCornerRadiusBottomStart="15dp"
+                app:boxCornerRadiusTopEnd="15dp"
+                app:boxCornerRadiusTopStart="15dp"
+                app:boxStrokeColor="@android:color/black"
+                app:endIconDrawable="@drawable/ic_close"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/black"
+                app:hintEnabled="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/mbt_back_search"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_search_box"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="@string/search_city"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="#838BAA"
+                    android:textSize="16sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/tv_home_city"

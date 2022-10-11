@@ -1,5 +1,7 @@
 package com.rafaelmfer.weatherforecast
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -27,6 +29,18 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
     }
 
     private fun ActivityMainBinding.onViewCreated() {
+        observables()
+        mbtHomeSearch.onSingleClick {
+            clSearch.visible
+            showSearchBox()
+        }
+
+        mbtBackSearch.onSingleClick {
+            hideSearchBox()
+        }
+    }
+
+    private fun ActivityMainBinding.observables() {
         viewModel.run {
             forecastLiveData.observe(this@HomeWeatherForecastActivity) {
                 handlerForecastState(it)
@@ -116,5 +130,39 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    private fun ActivityMainBinding.hideSearchBox() {
+        clSearch.animate()
+//            .translationY(-clSearch.height.toFloat())
+            .alpha(0F)
+            .setDuration(500L)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    super.onAnimationEnd(animation)
+                    clSearch.gone
+                    clSearch.animate().setListener(null)
+                }
+            })
+            .start()
+    }
+
+    private fun ActivityMainBinding.showSearchBox() {
+        clSearch.animate()
+//            .translationY(0F)
+            .alpha(1F)
+            .setDuration(500L)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animation: Animator?) {
+                    super.onAnimationStart(animation)
+                    clSearch.visible
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    super.onAnimationEnd(animation)
+                    clSearch.animate().setListener(null)
+                }
+            })
+            .start()
     }
 }
