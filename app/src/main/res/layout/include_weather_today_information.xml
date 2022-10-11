@@ -21,13 +21,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-thin"
         android:gravity="center"
-        android:text="84.0 ºF"
         android:textColor="@color/white"
         android:textSize="56sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_home_weather_today_image" />
+        app:layout_constraintTop_toBottomOf="@id/iv_home_weather_today_image"
+        tools:text="84.0 ºF" />
 
     <TextView
         android:id="@+id/tv_home_weather_today_citation"
@@ -35,12 +36,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:gravity="center"
-        android:text="It's a sunny day."
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_home_weather_today_temperature" />
+        app:layout_constraintTop_toBottomOf="@id/tv_home_weather_today_temperature"
+        tools:text="It's a sunny day." />
 
     <include
         android:id="@+id/inc_weather_today_information_wind"

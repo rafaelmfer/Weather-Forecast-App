@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">Weather Forecast</string>
+    <string name="protocol_https">https:</string>
     <string name="search">search</string>
     <string name="search_city">Search City</string>
+    <string name="weather_citation">It\'s a %1$s day</string>
+    <string name="fahrenheit">%1$s ºF</string>
+    <string name="wind_unit">%1$s mph</string>
+    <string name="temperature_min_max">%1$s/%2$sºF</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="friday">Friday</string>
 </resources>
