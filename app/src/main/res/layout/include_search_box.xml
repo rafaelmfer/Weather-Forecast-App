@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mbt_back_search"
+        style="@style/Button.IconOnly"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        app:icon="@drawable/ic_full_arrow_left"
+        app:iconGravity="textStart"
+        app:iconTint="#444E72"
+        app:layout_constraintBottom_toBottomOf="@id/til_search_box"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/til_search_box" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_search_box"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="32dp"
+        android:hint="@string/search_city"
+        app:boxCornerRadiusBottomEnd="15dp"
+        app:boxCornerRadiusBottomStart="15dp"
+        app:boxCornerRadiusTopEnd="15dp"
+        app:boxCornerRadiusTopStart="15dp"
+        app:boxStrokeColor="@android:color/black"
+        app:endIconMode="clear_text"
+        app:hintTextColor="#838BAA"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/mbt_back_search"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tie_search_box"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:imeOptions="actionSearch"
+            android:maxLines="1"
+            android:paddingBottom="8dp"
+            android:singleLine="true"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
