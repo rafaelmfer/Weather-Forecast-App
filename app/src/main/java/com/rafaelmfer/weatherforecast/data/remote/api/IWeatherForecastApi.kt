@@ -1,6 +1,6 @@
 package com.rafaelmfer.weatherforecast.data.remote.api
 
-import com.rafaelmfer.weatherforecast.data.remote.response.ForecastResponse
+import com.rafaelmfer.weatherforecast.data.remote.response.ForecastAPIResponse
 import com.rafaelmfer.weatherforecast.data.remote.response.SearchAutoCompleteResponseItem
 import retrofit2.Response
 import retrofit2.http.GET
@@ -17,7 +17,7 @@ interface IWeatherForecastApi {
         @Query("days") days: Int = 3,
         @Query("aqi") aqi: String = "yes",
         @Query("alerts") alerts: String = "no",
-    ): Response<ForecastResponse>
+    ): Response<ForecastAPIResponse>
 
     @GET("search.json")
     suspend fun searchCities(

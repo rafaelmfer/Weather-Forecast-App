@@ -2,13 +2,13 @@ package com.rafaelmfer.weatherforecast.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class ForecastResponse(
-    @SerializedName("location") val location: Location,
-    @SerializedName("current") val current: Current,
-    @SerializedName("forecast") val forecast: Forecast
+data class ForecastAPIResponse(
+    @SerializedName("location") val location: LocationResponse,
+    @SerializedName("current") val current: CurrentResponse,
+    @SerializedName("forecast") val forecast: ForecastResponse
 )
 
-data class Location(
+data class LocationResponse(
     @SerializedName("name") val name: String,
     @SerializedName("region") val region: String,
     @SerializedName("country") val country: String,
@@ -19,13 +19,13 @@ data class Location(
     @SerializedName("localtime") val localtime: String
 )
 
-data class Current(
+data class CurrentResponse(
     @SerializedName("last_updated_epoch") val lastUpdatedEpoch: Int,
     @SerializedName("last_updated") val lastUpdated: String,
     @SerializedName("temp_c") val tempC: Double,
     @SerializedName("temp_f") val tempF: Double,
     @SerializedName("is_day") val isDay: Int,
-    @SerializedName("condition") val condition: Condition,
+    @SerializedName("condition") val condition: ConditionResponse,
     @SerializedName("wind_mph") val windMph: Double,
     @SerializedName("wind_kph") val windKph: Double,
     @SerializedName("wind_degree") val windDegree: Int,
@@ -43,22 +43,22 @@ data class Current(
     @SerializedName("uv") val uv: Double,
     @SerializedName("gust_mph") val gustMph: Double,
     @SerializedName("gust_kph") val gustKph: Double,
-    @SerializedName("air_quality") val airQuality: AirQuality
+    @SerializedName("air_quality") val airQuality: AirQualityResponse
 )
 
-data class Forecast(
-    @SerializedName("forecastday") val forecastDay: List<ForecastDay>
+data class ForecastResponse(
+    @SerializedName("forecastday") val forecastDay: List<ForecastDayResponse>
 )
 
-data class ForecastDay(
+data class ForecastDayResponse(
     @SerializedName("date") val date: String,
     @SerializedName("date_epoch") val dateEpoch: Int,
-    @SerializedName("day") val day: Day,
-    @SerializedName("astro") val astro: Astro,
-    @SerializedName("hour") val hour: List<Hour>
+    @SerializedName("day") val day: DayResponse,
+    @SerializedName("astro") val astro: AstroResponse,
+    @SerializedName("hour") val hour: List<HourResponse>
 )
 
-data class Day(
+data class DayResponse(
     @SerializedName("maxtemp_c") val maxTempC: Double,
     @SerializedName("maxtemp_f") val maxTempF: Double,
     @SerializedName("mintemp_c") val minTempC: Double,
@@ -76,18 +76,18 @@ data class Day(
     @SerializedName("daily_chance_of_rain") val dailyChanceOfRain: Int,
     @SerializedName("daily_will_it_snow") val dailyWillItSnow: Int,
     @SerializedName("daily_chance_of_snow") val dailyChanceOfSnow: Int,
-    @SerializedName("condition") val condition: Condition,
+    @SerializedName("condition") val condition: ConditionResponse,
     @SerializedName("uv") val uv: Double,
-    @SerializedName("air_quality") val airQuality: AirQuality
+    @SerializedName("air_quality") val airQuality: AirQualityResponse
 )
 
-data class Condition(
+data class ConditionResponse(
     @SerializedName("text") val text: String,
     @SerializedName("icon") val icon: String,
     @SerializedName("code") val code: Int
 )
 
-data class AirQuality(
+data class AirQualityResponse(
     @SerializedName("co") val co: String,
     @SerializedName("no2") val no2: String,
     @SerializedName("o3") val o3: String,
@@ -98,7 +98,7 @@ data class AirQuality(
     @SerializedName("gb-defra-index") val gbDefraIndex: Int
 )
 
-data class Astro(
+data class AstroResponse(
     @SerializedName("sunrise") val sunrise: String,
     @SerializedName("sunset") val sunset: String,
     @SerializedName("moonrise") val moonrise: String,
@@ -107,13 +107,13 @@ data class Astro(
     @SerializedName("moon_illumination") val moonIllumination: String
 )
 
-data class Hour(
+data class HourResponse(
     @SerializedName("time_epoch") val timeEpoch: Int,
     @SerializedName("time") val time: String,
     @SerializedName("temp_c") val tempC: Double,
     @SerializedName("temp_f") val tempF: Double,
     @SerializedName("is_day") val isDay: Int,
-    @SerializedName("condition") val condition: Condition,
+    @SerializedName("condition") val condition: ConditionResponse,
     @SerializedName("wind_mph") val windMph: Double,
     @SerializedName("wind_kph") val windKph: Double,
     @SerializedName("wind_degree") val windDegree: Int,
@@ -141,5 +141,5 @@ data class Hour(
     @SerializedName("gust_mph") val gustMph: Double,
     @SerializedName("gust_kph") val gustKph: Double,
     @SerializedName("uv") val uv: Double,
-    @SerializedName("air_quality") val airQuality: AirQuality
+    @SerializedName("air_quality") val airQuality: AirQualityResponse
 )

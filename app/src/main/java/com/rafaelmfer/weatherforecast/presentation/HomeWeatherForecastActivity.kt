@@ -8,12 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import com.rafaelmfer.weatherforecast.R
 import com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
-import com.rafaelmfer.weatherforecast.data.remote.response.Current
-import com.rafaelmfer.weatherforecast.data.remote.response.Day
-import com.rafaelmfer.weatherforecast.data.remote.response.ForecastResponse
-import com.rafaelmfer.weatherforecast.data.remote.response.SearchAutoCompleteResponseItem
 import com.rafaelmfer.weatherforecast.data.repository.State
 import com.rafaelmfer.weatherforecast.databinding.ActivityHomeWeatherForecastBinding
+import com.rafaelmfer.weatherforecast.domain.model.CurrentModel
+import com.rafaelmfer.weatherforecast.domain.model.ForecastDayModel
+import com.rafaelmfer.weatherforecast.domain.model.ForecastModel
+import com.rafaelmfer.weatherforecast.domain.model.SearchAutoCompleteModelItem
 import com.rafaelmfer.weatherforecast.extensions.get12hoursTime
 import com.rafaelmfer.weatherforecast.extensions.getDayOfWeekWithFullDate
 import com.rafaelmfer.weatherforecast.extensions.gone
@@ -60,7 +60,7 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
         }
     }
 
-    private fun ActivityHomeWeatherForecastBinding.handlerForecastState(state: State<out ForecastResponse>) {
+    private fun ActivityHomeWeatherForecastBinding.handlerForecastState(state: State<out ForecastModel>) {
         when (state) {
             is State.Loading -> {
                 pbHomeWeatherForecast.visible
@@ -78,10 +78,10 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
 
                 loadWeatherTodayInfo(state.model.current)
 
-                with(state.model.forecast) {
-                    wmmToday.setupWeatherImageAndMinMaxTemp(forecastDay[0].day)
-                    wmmTomorrow.setupWeatherImageAndMinMaxTemp(forecastDay[1].day)
-                    wmmAfterTomorrow.setupWeatherImageAndMinMaxTemp(forecastDay[2].day)
+                with(state.model) {
+                    wmmToday.setupWeatherImageAndMinMaxTemp(forecasts[0])
+                    wmmTomorrow.setupWeatherImageAndMinMaxTemp(forecasts[1])
+                    wmmAfterTomorrow.setupWeatherImageAndMinMaxTemp(forecasts[2])
                 }
             }
             is State.Error -> {
@@ -91,7 +91,7 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
         }
     }
 
-    private fun ActivityHomeWeatherForecastBinding.loadWeatherTodayInfo(current: Current) {
+    private fun ActivityHomeWeatherForecastBinding.loadWeatherTodayInfo(current: CurrentModel) {
         wtiHome.apply {
             setWeatherImage("${getString(R.string.protocol_https)}${current.condition.icon}")
             val tempF = current.tempF.toString()
@@ -102,14 +102,14 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
         }
     }
 
-    private fun WeatherMinMaxByDayView.setupWeatherImageAndMinMaxTemp(day: Day) {
+    private fun WeatherMinMaxByDayView.setupWeatherImageAndMinMaxTemp(day: ForecastDayModel) {
         apply {
             setWeatherImage("${context.getString(R.string.protocol_https)}${day.condition.icon}")
             setWeatherMinMaxTemperature(day.minTempF.toString(), day.maxTempF.toString())
         }
     }
 
-    private fun ActivityHomeWeatherForecastBinding.handlerSearchState(state: State<out List<SearchAutoCompleteResponseItem>>) {
+    private fun ActivityHomeWeatherForecastBinding.handlerSearchState(state: State<out List<SearchAutoCompleteModelItem>>) {
         when (state) {
             is State.Loading -> {
                 pbSearchBox.visible

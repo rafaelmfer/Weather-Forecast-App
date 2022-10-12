@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.rafaelmfer.weatherforecast.data.remote.response.SearchAutoCompleteResponseItem
 import com.rafaelmfer.weatherforecast.databinding.ItemCitiesBinding
+import com.rafaelmfer.weatherforecast.domain.model.SearchAutoCompleteModelItem
 import com.rafaelmfer.weatherforecast.extensions.addRippleEffect
 import com.rafaelmfer.weatherforecast.extensions.onSingleClick
 import com.rafaelmfer.weatherforecast.extensions.sectionTextBold
@@ -13,7 +13,7 @@ import com.rafaelmfer.weatherforecast.extensions.toSpannableStringBuilder
 
 class CitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val cityList: MutableList<SearchAutoCompleteResponseItem> = mutableListOf()
+    private val cityList: MutableList<SearchAutoCompleteModelItem> = mutableListOf()
     private var cityListener: (city: String) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -35,7 +35,7 @@ class CitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
         }
 
-        fun bind(item: SearchAutoCompleteResponseItem, cityListener: (city: String) -> Unit) {
+        fun bind(item: SearchAutoCompleteModelItem, cityListener: (city: String) -> Unit) {
             binding.apply {
                 tvCityNameAndRegion.text = "${item.name} - ${item.region}".toSpannableStringBuilder().sectionTextBold(item.name)
                 root.apply {
@@ -49,8 +49,8 @@ class CitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     class CitiesDiffUtil(
-        private val oldList: List<SearchAutoCompleteResponseItem>,
-        private val newList: List<SearchAutoCompleteResponseItem>
+        private val oldList: List<SearchAutoCompleteModelItem>,
+        private val newList: List<SearchAutoCompleteModelItem>
     ) : DiffUtil.Callback() {
 
         override fun getOldListSize(): Int = oldList.size
@@ -67,7 +67,7 @@ class CitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    fun updateCityList(newCityList: List<SearchAutoCompleteResponseItem>) {
+    fun updateCityList(newCityList: List<SearchAutoCompleteModelItem>) {
         val diffUtilCallback = CitiesDiffUtil(
             oldList = cityList,
             newList = newCityList

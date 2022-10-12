@@ -1,9 +1,9 @@
 package com.rafaelmfer.weatherforecast.data
 
 import com.rafaelmfer.weatherforecast.TestHelper
-import com.rafaelmfer.weatherforecast.data.remote.response.ForecastResponse
-import com.rafaelmfer.weatherforecast.data.remote.response.SearchAutoCompleteResponseItem
 import com.rafaelmfer.weatherforecast.data.repository.State
+import com.rafaelmfer.weatherforecast.domain.model.ForecastModel
+import com.rafaelmfer.weatherforecast.domain.model.SearchAutoCompleteModelItem
 import com.rafaelmfer.weatherforecast.domain.repository.IWeatherForecastRepository
 import kotlin.reflect.KClass
 
@@ -13,8 +13,8 @@ class FakeWeatherForecastRepository : IWeatherForecastRepository {
     companion object {
         const val FORECAST_NOT_FOUND = "Forecast could not found"
         const val CITY_NOT_FOUND = "City could not found"
-        val forecastResponseTest = readJson("forecastMock.json", ForecastResponse::class)
-        val searchResponseTest = readJson("search_autocomplete.json", Array<SearchAutoCompleteResponseItem>::class).toList()
+        val forecastResponseTest = readJson("forecastMock.json", ForecastModel::class)
+        val searchResponseTest = readJson("search_autocomplete.json", Array<SearchAutoCompleteModelItem>::class).toList()
 
 
         private fun <T : Any> readJson(fileName: String, clazz: KClass<T>): T {
@@ -29,7 +29,7 @@ class FakeWeatherForecastRepository : IWeatherForecastRepository {
         shouldReturnError = value
     }
 
-    override suspend fun getForecast(query: String): State<out ForecastResponse> {
+    override suspend fun getForecast(query: String): State<out ForecastModel> {
         if (shouldReturnError) {
             return State.Error(FORECAST_NOT_FOUND)
         }
@@ -37,7 +37,7 @@ class FakeWeatherForecastRepository : IWeatherForecastRepository {
         return State.Success(forecastResponseTest)
     }
 
-    override suspend fun searchCities(query: String): State<out List<SearchAutoCompleteResponseItem>> {
+    override suspend fun searchCities(query: String): State<out List<SearchAutoCompleteModelItem>> {
         if (shouldReturnError) {
             return State.Error(CITY_NOT_FOUND)
         }

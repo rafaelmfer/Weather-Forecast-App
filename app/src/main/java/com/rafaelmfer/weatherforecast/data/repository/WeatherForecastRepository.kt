@@ -1,8 +1,9 @@
 package com.rafaelmfer.weatherforecast.data.repository
 
 import com.rafaelmfer.weatherforecast.data.remote.api.IWeatherForecastApi
-import com.rafaelmfer.weatherforecast.data.remote.response.ForecastResponse
-import com.rafaelmfer.weatherforecast.data.remote.response.SearchAutoCompleteResponseItem
+import com.rafaelmfer.weatherforecast.domain.mapper.asDomainModel
+import com.rafaelmfer.weatherforecast.domain.model.ForecastModel
+import com.rafaelmfer.weatherforecast.domain.model.SearchAutoCompleteModelItem
 import com.rafaelmfer.weatherforecast.domain.repository.IWeatherForecastRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -21,12 +22,12 @@ class WeatherForecastRepository(
     private val iWeatherForecastApi: IWeatherForecastApi,
 ) : IWeatherForecastRepository {
 
-    override suspend fun getForecast(query: String): State<out ForecastResponse> {
+    override suspend fun getForecast(query: String): State<out ForecastModel> {
         return withContext(Dispatchers.IO) {
             try {
                 iWeatherForecastApi.getForecast(query = query).run {
                     body()?.let {
-                        State.Success(it)
+                        State.Success(it.asDomainModel())
                     } ?: State.Error(message())
                 }
             } catch (ex: Exception) {
@@ -35,12 +36,12 @@ class WeatherForecastRepository(
         }
     }
 
-    override suspend fun searchCities(query: String): State<out List<SearchAutoCompleteResponseItem>> {
+    override suspend fun searchCities(query: String): State<out List<SearchAutoCompleteModelItem>> {
         return withContext(Dispatchers.IO) {
             try {
                 iWeatherForecastApi.searchCities(query = query).run {
                     body()?.let {
-                        State.Success(it)
+                        State.Success(it.map { item -> item.asDomainModel() })
                     } ?: State.Error(message())
                 }
             } catch (ex: Exception) {
