@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:background="@drawable/blue_gradient">
+    tools:background="@drawable/blue_background">
 
     <ImageView
         android:id="@+id/iv_forecast_information_image"

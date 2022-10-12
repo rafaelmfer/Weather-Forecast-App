@@ -15,13 +15,13 @@ fun SpannableStringBuilder.sectionTextBold(vararg args: String?): SpannableStrin
 }
 
 private fun SpannableStringBuilder.sectionText(vararg args: String?, apply: (SpannableStringBuilder, Int, Int) -> Unit): SpannableStringBuilder {
-    args.forEach { textToBold ->
-        if (textToBold != null) {
-            if (textToBold.isNotEmpty() && textToBold.trim { it <= ' ' } != "") {
-                val testText = this.toString().lowercase(Locale.ROOT)
-                val testTextToBold = textToBold.lowercase(Locale.ROOT)
-                val startingIndex = testText.indexOf(testTextToBold)
-                val endingIndex = startingIndex + testTextToBold.length
+    args.forEach { argTextToBold ->
+        if (argTextToBold != null) {
+            if (argTextToBold.isNotEmpty() && argTextToBold.trim { it <= ' ' } != "") {
+                val text = this.toString().lowercase(Locale.ROOT)
+                val textToBold = argTextToBold.lowercase(Locale.ROOT)
+                val startingIndex = text.indexOf(textToBold)
+                val endingIndex = startingIndex + textToBold.length
 
                 if (startingIndex >= 0 && endingIndex >= 0) {
                     apply(this, startingIndex, endingIndex)
