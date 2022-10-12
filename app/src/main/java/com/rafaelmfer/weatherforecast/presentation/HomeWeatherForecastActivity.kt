@@ -125,6 +125,7 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
             is State.Success -> {
                 pbSearchBox.gone
                 rvSearchCities.visibility = if (state.model.isEmpty()) View.GONE else View.VISIBLE
+                mbtSearchBoxCollapse.visibility = if (state.model.isEmpty()) View.GONE else View.VISIBLE
                 cityAdapter.apply {
                     updateCityList(state.model)
                     setActionListener { city ->
@@ -153,6 +154,8 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
         }
 
         mbtBackSearch.onSingleClick {
+            rvSearchCities.gone
+            mbtSearchBoxCollapse.gone
             hideSearchBox()
         }
 
@@ -171,12 +174,9 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
             }
 
         rvSearchCities.adapter = cityAdapter
-        mbtSearchBoxCollapse.apply {
-            visibility = if (cityAdapter.itemCount == 0) View.GONE else View.VISIBLE
-            onSingleClick {
-                rvSearchCities.gone
-                it.gone
-            }
+        mbtSearchBoxCollapse.onSingleClick {
+            rvSearchCities.gone
+            it.gone
         }
     }
 
