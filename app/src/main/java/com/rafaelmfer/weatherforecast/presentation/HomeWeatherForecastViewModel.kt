@@ -24,11 +24,15 @@ class HomeWeatherForecastViewModel(
     private val citiesMutableLiveData = MutableLiveData<State<out List<SearchAutoCompleteModelItem>>>()
     val citiesLiveData: LiveData<State<out List<SearchAutoCompleteModelItem>>> get() = citiesMutableLiveData
 
+    private var cityChosen: String
+
     init {
+        cityChosen = CITY_DEFAULT
         getForecast(CITY_DEFAULT)
     }
 
     fun getForecast(query: String) {
+        cityChosen = query
         forecastMutableLiveData.postValue(State.Loading)
         viewModelScope.launch {
             forecastMutableLiveData.postValue(repository.getForecast(query))
@@ -40,5 +44,9 @@ class HomeWeatherForecastViewModel(
         viewModelScope.launch {
             citiesMutableLiveData.postValue(repository.searchCities(query))
         }
+    }
+
+    fun refresh() {
+        getForecast(cityChosen)
     }
 }

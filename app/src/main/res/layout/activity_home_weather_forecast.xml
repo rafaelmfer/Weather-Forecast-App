@@ -1,258 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:background="@drawable/home_image"
-    tools:context=".presentation.HomeWeatherForecastActivity">
+    android:id="@+id/srl_home_weather"
+    app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue_astronaut"
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/blue_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@drawable/home_image"
+        tools:context=".presentation.HomeWeatherForecastActivity">
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/group_home_weather_forecast"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="tv_home_clock, tv_home_city, tv_home_today_date,
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/blue_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/group_home_weather_forecast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="tv_home_clock, tv_home_city, tv_home_today_date,
             wti_home, wmm_today, wmm_tomorrow,
             wmm_after_tomorrow"
-            tools:visibility="visible" />
+                tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/tv_home_clock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:padding="4dp"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="9:12 AM" />
+            <TextView
+                android:id="@+id/tv_home_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:padding="4dp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="9:12 AM" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/mbt_home_search"
-            style="@style/Button.IconOnly"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="20dp"
-            android:contentDescription="@string/search"
-            app:icon="@drawable/ic_search"
-            app:iconTint="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mbt_home_search"
+                style="@style/Button.IconOnly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="@string/search"
+                app:icon="@drawable/ic_search"
+                app:iconTint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_home_city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="32sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_home_clock"
-            tools:text="San Francisco" />
+            <TextView
+                android:id="@+id/tv_home_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="42dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_home_clock"
+                tools:text="San Francisco" />
 
-        <TextView
-            android:id="@+id/tv_home_today_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_home_city"
-            tools:text="Tuesday, 12 Apr 2022" />
+            <TextView
+                android:id="@+id/tv_home_today_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_home_city"
+                tools:text="Tuesday, 12 Apr 2022" />
 
-        <com.rafaelmfer.weatherforecast.customviews.WeatherTodayInfoView
-            android:id="@+id/wti_home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/wmm_today"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_home_today_date"
-            tools:citation="@string/weather_citation"
-            tools:forecastDroplet="60%"
-            tools:forecastWind="3 mph"
-            tools:temperature="84.0 ºF" />
+            <com.rafaelmfer.weatherforecast.customviews.WeatherTodayInfoView
+                android:id="@+id/wti_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/wmm_today"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_home_today_date"
+                tools:citation="@string/weather_citation"
+                tools:forecastDroplet="60%"
+                tools:forecastWind="3 mph"
+                tools:temperature="84.0 ºF" />
 
-        <com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
-            android:id="@+id/wmm_today"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:dayOfWeek="@string/today"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/wmm_tomorrow"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/wti_home"
-            tools:text="82/86.2ºF" />
+            <com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
+                android:id="@+id/wmm_today"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:dayOfWeek="@string/today"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/wmm_tomorrow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/wti_home"
+                tools:text="82/86.2ºF" />
 
-        <com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
-            android:id="@+id/wmm_tomorrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:dayOfWeek="@string/tomorrow"
-            app:layout_constraintBottom_toBottomOf="@id/wmm_today"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/wmm_tomorrow"
-            app:layout_constraintTop_toTopOf="@id/wmm_today"
-            tools:text="82/86.2ºF" />
+            <com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
+                android:id="@+id/wmm_tomorrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:dayOfWeek="@string/tomorrow"
+                app:layout_constraintBottom_toBottomOf="@id/wmm_today"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/wmm_tomorrow"
+                app:layout_constraintTop_toTopOf="@id/wmm_today"
+                tools:text="82/86.2ºF" />
 
-        <com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
-            android:id="@+id/wmm_after_tomorrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:dayOfWeek="@string/friday"
-            app:layout_constraintBottom_toBottomOf="@id/wmm_today"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/wmm_tomorrow"
-            app:layout_constraintTop_toTopOf="@id/wmm_today"
-            tools:text="82/86.2ºF" />
+            <com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
+                android:id="@+id/wmm_after_tomorrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:dayOfWeek="@string/friday"
+                app:layout_constraintBottom_toBottomOf="@id/wmm_today"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/wmm_tomorrow"
+                app:layout_constraintTop_toTopOf="@id/wmm_today"
+                tools:text="82/86.2ºF" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_search"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:alpha="0"
-        android:background="@drawable/shape_rect_rounded_bottom_30"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:alpha="1"
-        tools:visibility="visible">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/mbt_back_search"
-            style="@style/Button.IconOnly"
-            android:layout_width="24dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            app:icon="@drawable/ic_full_arrow_left"
-            app:iconGravity="textStart"
-            app:iconTint="@color/blue_astronaut"
-            app:layout_constraintBottom_toBottomOf="@id/til_search_box"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/til_search_box" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_search_box"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="27dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="16dp"
-            app:boxCornerRadiusBottomEnd="15dp"
-            app:boxCornerRadiusBottomStart="15dp"
-            app:boxCornerRadiusTopEnd="15dp"
-            app:boxCornerRadiusTopStart="15dp"
-            app:boxStrokeColor="@color/blue_astronaut"
-            app:endIconDrawable="@drawable/ic_close"
-            app:endIconMode="clear_text"
-            app:hintEnabled="false"
-            app:layout_constraintBottom_toTopOf="@id/rv_search_cities"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/mbt_back_search"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_goneMarginBottom="27dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tie_search_box"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="@string/search_city"
-                android:imeOptions="actionSearch"
-                android:inputType="textCapSentences"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textColorHint="@color/blue_ship_cove"
-                android:textSize="16sp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_search_cities"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:alpha="0"
             android:background="@drawable/shape_rect_rounded_bottom_30"
-            android:clipToPadding="false"
-            android:overScrollMode="never"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
             android:visibility="gone"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/mbt_search_box_collapse"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_search_box"
-            tools:itemCount="3"
-            tools:listitem="@layout/item_cities"
-            tools:visibility="visible" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:alpha="1"
+            tools:visibility="visible">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mbt_back_search"
+                style="@style/Button.IconOnly"
+                android:layout_width="24dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                app:icon="@drawable/ic_full_arrow_left"
+                app:iconGravity="textStart"
+                app:iconTint="@color/blue_astronaut"
+                app:layout_constraintBottom_toBottomOf="@id/til_search_box"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/til_search_box" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_search_box"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="27dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="16dp"
+                app:boxCornerRadiusBottomEnd="15dp"
+                app:boxCornerRadiusBottomStart="15dp"
+                app:boxCornerRadiusTopEnd="15dp"
+                app:boxCornerRadiusTopStart="15dp"
+                app:boxStrokeColor="@color/blue_astronaut"
+                app:endIconDrawable="@drawable/ic_close"
+                app:endIconMode="clear_text"
+                app:hintEnabled="false"
+                app:layout_constraintBottom_toTopOf="@id/rv_search_cities"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/mbt_back_search"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_goneMarginBottom="27dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tie_search_box"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="@string/search_city"
+                    android:imeOptions="actionSearch"
+                    android:inputType="textCapSentences"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/blue_ship_cove"
+                    android:textSize="16sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_search_cities"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rect_rounded_bottom_30"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@id/mbt_search_box_collapse"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_search_box"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_cities"
+                tools:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/pb_search_box"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="8dp"
+                android:indeterminateTint="@color/blue_astronaut"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_search_box"
+                app:layout_constraintVertical_bias="0.1"
+                tools:visibility="visible" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mbt_search_box_collapse"
+                style="@style/Button.IconOnly"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:background="@drawable/shape_rect_rounded_bottom_30"
+                android:gravity="center"
+                android:visibility="gone"
+                app:backgroundTint="@color/white_ghost"
+                app:icon="@drawable/ic_up_arrow"
+                app:iconGravity="textStart"
+                app:iconTint="@color/blue_astronaut"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_search_cities"
+                tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar
-            android:id="@+id/pb_search_box"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="8dp"
-            android:indeterminateTint="@color/blue_astronaut"
+            android:id="@+id/pb_home_weather_forecast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@android:color/white"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_search_box"
-            app:layout_constraintVertical_bias="0.1"
-            tools:visibility="visible" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/mbt_search_box_collapse"
-            style="@style/Button.IconOnly"
-            android:layout_width="0dp"
-            android:layout_height="38dp"
-            android:background="@drawable/shape_rect_rounded_bottom_30"
-            android:gravity="center"
-            android:visibility="gone"
-            app:backgroundTint="@color/white_ghost"
-            app:icon="@drawable/ic_up_arrow"
-            app:iconGravity="textStart"
-            app:iconTint="@color/blue_astronaut"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_search_cities"
-            tools:visibility="visible" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ProgressBar
-        android:id="@+id/pb_home_weather_forecast"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="@android:color/white"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

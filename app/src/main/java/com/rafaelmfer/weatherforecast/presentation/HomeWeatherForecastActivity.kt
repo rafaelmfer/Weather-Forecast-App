@@ -46,6 +46,7 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
     private fun ActivityHomeWeatherForecastBinding.onViewCreated() {
         observables()
         setupSearchBoxContainer()
+        configureSwipeRefresh()
     }
 
     private fun ActivityHomeWeatherForecastBinding.observables() {
@@ -69,6 +70,7 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
             is State.Success -> {
                 pbHomeWeatherForecast.gone
                 groupHomeWeatherForecast.visible
+                srlHomeWeather.isRefreshing = false
 
                 with(state.model.location) {
                     tvHomeClock.text = get12hoursTime(localtime)
@@ -85,6 +87,7 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
                 }
             }
             is State.Error -> {
+                srlHomeWeather.isRefreshing = false
                 pbHomeWeatherForecast.gone
                 groupHomeWeatherForecast.gone
             }
@@ -206,5 +209,11 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
                 }
             })
             .start()
+    }
+
+    private fun ActivityHomeWeatherForecastBinding.configureSwipeRefresh() {
+        srlHomeWeather.setOnRefreshListener {
+            viewModel.refresh()
+        }
     }
 }
