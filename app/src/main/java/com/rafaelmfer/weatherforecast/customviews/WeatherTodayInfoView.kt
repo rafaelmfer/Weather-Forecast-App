@@ -8,6 +8,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.rafaelmfer.weatherforecast.R
 import com.rafaelmfer.weatherforecast.databinding.ViewWeatherTodayInfoBinding
+import com.rafaelmfer.weatherforecast.extensions.sectionTextBold
+import com.rafaelmfer.weatherforecast.extensions.toSpannableStringBuilder
 
 class WeatherTodayInfoView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -42,18 +44,20 @@ class WeatherTodayInfoView @JvmOverloads constructor(
     }
 
     fun setTemperature(text: CharSequence) {
-        binding.tvHomeWeatherTodayTemperature.text = text
+        binding.tvHomeWeatherTodayTemperature.text = context.getString(R.string.fahrenheit, text)
+            .toSpannableStringBuilder()
+            .sectionTextBold(text.toString())
     }
 
     fun setCitation(text: String) {
-        binding.tvHomeWeatherTodayCitation.text = text
+        binding.tvHomeWeatherTodayCitation.text = context.getString(R.string.weather_citation, text)
     }
 
     fun setForecastWindValue(text: String) {
-        binding.incWeatherTodayInformationWind.tvForecastInformationText.text = text
+        binding.incWeatherTodayInformationWind.tvForecastInformationText.text = context.getString(R.string.wind_unit, text)
     }
 
     fun setForecastDropletValue(text: String) {
-        binding.incWeatherTodayInformationDroplet.tvForecastInformationText.text = text
+        binding.incWeatherTodayInformationDroplet.tvForecastInformationText.text = "$text%"
     }
 }

@@ -19,8 +19,6 @@ import com.rafaelmfer.weatherforecast.extensions.getDayOfWeekWithFullDate
 import com.rafaelmfer.weatherforecast.extensions.gone
 import com.rafaelmfer.weatherforecast.extensions.hideKeyboard
 import com.rafaelmfer.weatherforecast.extensions.onSingleClick
-import com.rafaelmfer.weatherforecast.extensions.sectionTextBold
-import com.rafaelmfer.weatherforecast.extensions.toSpannableStringBuilder
 import com.rafaelmfer.weatherforecast.extensions.viewBinding
 import com.rafaelmfer.weatherforecast.extensions.visible
 import io.reactivex.Observable
@@ -105,10 +103,10 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
         wtiHome.apply {
             setWeatherImage("${getString(R.string.protocol_https)}${current.condition.icon}")
             val tempF = current.tempF.toString()
-            setTemperature(getString(R.string.fahrenheit, tempF).toSpannableStringBuilder().sectionTextBold(tempF))
-            setCitation(getString(R.string.weather_citation, current.condition.text.lowercase(Locale.getDefault())))
-            setForecastWindValue(getString(R.string.wind_unit, current.windMph.toString()))
-            setForecastDropletValue("${current.humidity}%")
+            setTemperature(tempF)
+            setCitation(current.condition.text.lowercase(Locale.getDefault()))
+            setForecastWindValue(current.windMph.toString())
+            setForecastDropletValue(current.humidity.toString())
         }
     }
 
