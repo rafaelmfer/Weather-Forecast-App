@@ -1,6 +1,7 @@
 package com.rafaelmfer.weatherforecast
 
 import android.app.Application
+import com.rafaelmfer.weatherforecast.di.DatabaseModule
 import com.rafaelmfer.weatherforecast.di.NetworkModule
 import com.rafaelmfer.weatherforecast.di.PresentationModule
 import com.rafaelmfer.weatherforecast.di.RepositoryModule
@@ -16,6 +17,7 @@ class WeatherForecastApplication : Application() {
             androidContext(this@WeatherForecastApplication)
             modules(
                 PresentationModule.module,
+                DatabaseModule.module,
                 RepositoryModule.module,
                 NetworkModule.module,
             )

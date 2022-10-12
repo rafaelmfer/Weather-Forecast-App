@@ -1,10 +1,13 @@
 package com.rafaelmfer.weatherforecast.data.repository
 
+import com.rafaelmfer.weatherforecast.data.dto.ForecastEntity
+import com.rafaelmfer.weatherforecast.data.local.ForecastDao
 import com.rafaelmfer.weatherforecast.data.remote.api.IWeatherForecastApi
 import com.rafaelmfer.weatherforecast.domain.mapper.asDomainModel
 import com.rafaelmfer.weatherforecast.domain.model.ForecastModel
 import com.rafaelmfer.weatherforecast.domain.model.SearchAutoCompleteModelItem
 import com.rafaelmfer.weatherforecast.domain.repository.IWeatherForecastRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -20,10 +23,12 @@ sealed class State<T : Any> {
 
 class WeatherForecastRepository(
     private val iWeatherForecastApi: IWeatherForecastApi,
+    private val forecastDao: ForecastDao,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : IWeatherForecastRepository {
 
     override suspend fun getForecast(query: String): State<out ForecastModel> {
-        return withContext(Dispatchers.IO) {
+        return withContext(ioDispatcher) {
             try {
                 iWeatherForecastApi.getForecast(query = query).run {
                     body()?.let {
@@ -37,7 +42,7 @@ class WeatherForecastRepository(
     }
 
     override suspend fun searchCities(query: String): State<out List<SearchAutoCompleteModelItem>> {
-        return withContext(Dispatchers.IO) {
+        return withContext(ioDispatcher) {
             try {
                 iWeatherForecastApi.searchCities(query = query).run {
                     body()?.let {
@@ -47,6 +52,30 @@ class WeatherForecastRepository(
             } catch (ex: Exception) {
                 State.Error(ex.localizedMessage)
             }
+        }
+    }
+
+    override suspend fun getLastForecast(): ForecastEntity? {
+        return withContext(ioDispatcher) {
+            forecastDao.getAllForecasts().lastOrNull()
+        }
+    }
+
+    override suspend fun getForecastByName(cityName: String): ForecastEntity? {
+        return withContext(ioDispatcher) {
+            forecastDao.getForecastByName(cityName)
+        }
+    }
+
+    override suspend fun saveForecast(forecast: ForecastEntity) {
+        withContext(ioDispatcher) {
+            forecastDao.saveForecast(forecast)
+        }
+    }
+
+    override suspend fun deleteAllForecasts() {
+        withContext(ioDispatcher) {
+            forecastDao.deleteAllForecasts()
         }
     }
 }
