@@ -80,15 +80,18 @@
             app:layout_constraintTop_toBottomOf="@id/tv_home_city"
             tools:text="Tuesday, 12 Apr 2022" />
 
-        <include
+        <com.rafaelmfer.weatherforecast.customviews.WeatherTodayInfoView
             android:id="@+id/inc_home_weather_today_information"
-            layout="@layout/include_weather_today_information"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/inc_weather_min_max_today"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_home_today_date" />
+            app:layout_constraintTop_toBottomOf="@id/tv_home_today_date"
+            tools:citation="@string/weather_citation"
+            tools:forecastDroplet="60%"
+            tools:forecastWind="3 mph"
+            tools:temperature="84.0 ºF" />
 
         <com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
             android:id="@+id/inc_weather_min_max_today"
@@ -130,7 +133,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:alpha="0"
-        android:animateLayoutChanges="true"
         android:background="@drawable/shape_rect_rounded_bottom_30"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

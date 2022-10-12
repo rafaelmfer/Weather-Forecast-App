@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
-import com.bumptech.glide.Glide
 import com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
 import com.rafaelmfer.weatherforecast.data.remote.response.Day
 import com.rafaelmfer.weatherforecast.data.remote.response.ForecastResponse
@@ -81,18 +80,15 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
                     .lowercase(Locale.getDefault())
                     .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
                 tvHomeTodayDate.text = "$dayOfWeek, ${date.format(DateTimeFormatter.ofPattern("dd MMM yyyy"))}"
+
                 incHomeWeatherTodayInformation.apply {
-                    Glide.with(this@HomeWeatherForecastActivity)
-                        .load("${getString(R.string.protocol_https)}${state.model.current.condition.icon}")
-                        .into(ivHomeWeatherTodayImage)
-                    val tempF = state.model.current.tempF.toString()
-                    tvHomeWeatherTodayTemperature.text = getString(R.string.fahrenheit, tempF).toSpannableStringBuilder().sectionTextBold(tempF)
-                    tvHomeWeatherTodayCitation.text = getString(R.string.weather_citation, state.model.current.condition.text.lowercase(Locale.getDefault()))
-                    incWeatherTodayInformationWind.tvForecastInformationText.text = getString(R.string.wind_unit, state.model.current.windMph.toString())
-                    incWeatherTodayInformationDroplet.apply {
-                        ivForecastInformationImage.setImageResource(R.drawable.ic_droplet)
-                        tvForecastInformationText.text = "${state.model.current.humidity}%"
-                    }
+                    val current = state.model.current
+                    setWeatherImage("${getString(R.string.protocol_https)}${current.condition.icon}")
+                    val tempF = current.tempF.toString()
+                    setTemperature(getString(R.string.fahrenheit, tempF).toSpannableStringBuilder().sectionTextBold(tempF))
+                    setCitation(getString(R.string.weather_citation, current.condition.text.lowercase(Locale.getDefault())))
+                    setForecastWindValue(getString(R.string.wind_unit, current.windMph.toString()))
+                    setForecastDropletValue("${current.humidity}%")
                 }
 
                 incWeatherMinMaxToday.setupWeatherImageAndMinMaxTemp(state.model.forecast.forecastDay[0].day)
