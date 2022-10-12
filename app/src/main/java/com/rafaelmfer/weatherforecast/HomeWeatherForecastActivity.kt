@@ -7,11 +7,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import com.bumptech.glide.Glide
+import com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
+import com.rafaelmfer.weatherforecast.data.remote.response.Day
 import com.rafaelmfer.weatherforecast.data.remote.response.ForecastResponse
 import com.rafaelmfer.weatherforecast.data.remote.response.SearchAutoCompleteResponseItem
 import com.rafaelmfer.weatherforecast.data.repository.State
-import com.rafaelmfer.weatherforecast.databinding.ActivityMainBinding
-import com.rafaelmfer.weatherforecast.databinding.IncludeWeatherMinMaxByDayBinding
+import com.rafaelmfer.weatherforecast.databinding.ActivityHomeWeatherForecastBinding
 import com.rafaelmfer.weatherforecast.presentation.HomeWeatherForecastViewModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -26,7 +27,7 @@ import java.util.concurrent.TimeUnit
 class HomeWeatherForecastActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<HomeWeatherForecastViewModel>()
-    private val binding by viewBinding(ActivityMainBinding::inflate)
+    private val binding by viewBinding(ActivityHomeWeatherForecastBinding::inflate)
 
     private val cityAdapter = CitiesAdapter()
 
@@ -36,7 +37,7 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
         binding.onViewCreated()
     }
 
-    private fun ActivityMainBinding.onViewCreated() {
+    private fun ActivityHomeWeatherForecastBinding.onViewCreated() {
         observables()
         setupSearchBoxContainer()
         mbtHomeSearch.onSingleClick {
@@ -49,7 +50,7 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
         }
     }
 
-    private fun ActivityMainBinding.observables() {
+    private fun ActivityHomeWeatherForecastBinding.observables() {
         viewModel.run {
             forecastLiveData.observe(this@HomeWeatherForecastActivity) {
                 handlerForecastState(it)
@@ -61,7 +62,7 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
         }
     }
 
-    private fun ActivityMainBinding.handlerForecastState(state: State<out ForecastResponse>) {
+    private fun ActivityHomeWeatherForecastBinding.handlerForecastState(state: State<out ForecastResponse>) {
         when (state) {
             is State.Loading -> {
                 pbHomeWeatherForecast.visible
@@ -93,24 +94,10 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
                         tvForecastInformationText.text = "${state.model.current.humidity}%"
                     }
                 }
-                incWeatherMinMaxToday.weatherMinMaxByDay(
-                    state.model.forecast.forecastDay[0].day.condition.icon,
-                    state.model.forecast.forecastDay[0].day.minTempF,
-                    state.model.forecast.forecastDay[0].day.maxTempF,
-                    getString(R.string.today)
-                )
-                incWeatherMinMaxTomorrow.weatherMinMaxByDay(
-                    state.model.forecast.forecastDay[1].day.condition.icon,
-                    state.model.forecast.forecastDay[1].day.minTempF,
-                    state.model.forecast.forecastDay[1].day.maxTempF,
-                    getString(R.string.tomorrow)
-                )
-                incWeatherMinMaxAfterTomorrow.weatherMinMaxByDay(
-                    state.model.forecast.forecastDay[2].day.condition.icon,
-                    state.model.forecast.forecastDay[2].day.minTempF,
-                    state.model.forecast.forecastDay[2].day.maxTempF,
-                    getString(R.string.friday)
-                )
+
+                incWeatherMinMaxToday.setupWeatherImageAndMinMaxTemp(state.model.forecast.forecastDay[0].day)
+                incWeatherMinMaxTomorrow.setupWeatherImageAndMinMaxTemp(state.model.forecast.forecastDay[1].day)
+                incWeatherMinMaxAfterTomorrow.setupWeatherImageAndMinMaxTemp(state.model.forecast.forecastDay[2].day)
             }
             is State.Error -> {
                 pbHomeWeatherForecast.gone
@@ -119,17 +106,14 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
         }
     }
 
-    private fun IncludeWeatherMinMaxByDayBinding.weatherMinMaxByDay(image: String, minTemp: Double, maxTemp: Double, day: String) {
+    private fun WeatherMinMaxByDayView.setupWeatherImageAndMinMaxTemp(day: Day) {
         apply {
-            Glide.with(this@HomeWeatherForecastActivity)
-                .load("${getString(R.string.protocol_https)}$image")
-                .into(ivWeatherMinMaxByDayWeatherImage)
-            tvWeatherMinMaxByDayMinMax.text = getString(R.string.temperature_min_max, minTemp, maxTemp)
-            tvWeatherMinMaxByDayDay.text = day
+            setWeatherImage("${context.getString(R.string.protocol_https)}${day.condition.icon}")
+            setWeatherMinMaxTemperature(day.minTempF.toString(), day.maxTempF.toString())
         }
     }
 
-    private fun ActivityMainBinding.handlerSearchState(state: State<out List<SearchAutoCompleteResponseItem>>) {
+    private fun ActivityHomeWeatherForecastBinding.handlerSearchState(state: State<out List<SearchAutoCompleteResponseItem>>) {
         when (state) {
             is State.Loading -> {
                 pbSearchBox.visible
@@ -158,7 +142,7 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
         cityAdapter.updateCityList(listOf())
     }
 
-    private fun ActivityMainBinding.setupSearchBoxContainer() {
+    private fun ActivityHomeWeatherForecastBinding.setupSearchBoxContainer() {
         Observable.create<String> { emitter ->
             tieSearchBox.doOnTextChanged { text, _, _, _ ->
                 text?.let {
@@ -183,7 +167,7 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
         }
     }
 
-    private fun ActivityMainBinding.hideSearchBox() {
+    private fun ActivityHomeWeatherForecastBinding.hideSearchBox() {
         clSearch.animate()
             .translationY(-clSearch.height.toFloat())
             .alpha(0F)
@@ -201,7 +185,7 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
         clearCityList()
     }
 
-    private fun ActivityMainBinding.showSearchBox() {
+    private fun ActivityHomeWeatherForecastBinding.showSearchBox() {
         clSearch.animate()
             .translationY(0F)
             .alpha(1F)
