@@ -1,4 +1,4 @@
-package com.rafaelmfer.weatherforecast
+package com.rafaelmfer.weatherforecast.extensions
 
 import android.app.Activity
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.rafaelmfer.weatherforecast
+package com.rafaelmfer.weatherforecast.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,6 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rafaelmfer.weatherforecast.data.remote.response.SearchAutoCompleteResponseItem
 import com.rafaelmfer.weatherforecast.databinding.ItemCitiesBinding
+import com.rafaelmfer.weatherforecast.extensions.addRippleEffect
+import com.rafaelmfer.weatherforecast.extensions.onSingleClick
+import com.rafaelmfer.weatherforecast.extensions.sectionTextBold
+import com.rafaelmfer.weatherforecast.extensions.toSpannableStringBuilder
 
 class CitiesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@drawable/home_image"
-    tools:context=".HomeWeatherForecastActivity">
+    tools:context=".presentation.HomeWeatherForecastActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"

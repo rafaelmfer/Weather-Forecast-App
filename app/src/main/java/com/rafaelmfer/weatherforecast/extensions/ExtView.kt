@@ -1,4 +1,4 @@
-package com.rafaelmfer.weatherforecast
+package com.rafaelmfer.weatherforecast.extensions
 
 import android.os.SystemClock
 import android.view.View
@@ -6,6 +6,7 @@ import androidx.annotation.ColorRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import com.rafaelmfer.weatherforecast.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.DelicateCoroutinesApi

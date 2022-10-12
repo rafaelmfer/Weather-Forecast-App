@@ -1,4 +1,4 @@
-package com.rafaelmfer.weatherforecast
+package com.rafaelmfer.weatherforecast.presentation
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -6,13 +6,20 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
+import com.rafaelmfer.weatherforecast.R
 import com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
 import com.rafaelmfer.weatherforecast.data.remote.response.Day
 import com.rafaelmfer.weatherforecast.data.remote.response.ForecastResponse
 import com.rafaelmfer.weatherforecast.data.remote.response.SearchAutoCompleteResponseItem
 import com.rafaelmfer.weatherforecast.data.repository.State
 import com.rafaelmfer.weatherforecast.databinding.ActivityHomeWeatherForecastBinding
-import com.rafaelmfer.weatherforecast.presentation.HomeWeatherForecastViewModel
+import com.rafaelmfer.weatherforecast.extensions.gone
+import com.rafaelmfer.weatherforecast.extensions.hideKeyboard
+import com.rafaelmfer.weatherforecast.extensions.onSingleClick
+import com.rafaelmfer.weatherforecast.extensions.sectionTextBold
+import com.rafaelmfer.weatherforecast.extensions.toSpannableStringBuilder
+import com.rafaelmfer.weatherforecast.extensions.viewBinding
+import com.rafaelmfer.weatherforecast.extensions.visible
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
