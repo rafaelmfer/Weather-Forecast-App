@@ -84,7 +84,7 @@ class HomeWeatherForecastViewModelTest {
     }
 
     @Test
-    fun `search cities _ show success`() {
+    fun `search cities _ show loading and then success`() {
         mainCoroutineRule.runBlockingTest {
             //GIVEN
             val keyword = "San Francisco"
