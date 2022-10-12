@@ -23,8 +23,8 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:constraint_referenced_ids="tv_home_clock, tv_home_city, tv_home_today_date,
-            inc_home_weather_today_information, inc_weather_min_max_today, inc_weather_min_max_tomorrow,
-            inc_weather_min_max_after_tomorrow"
+            wti_home, wmm_today, wmm_tomorrow,
+            wmm_after_tomorrow"
             tools:visibility="visible" />
 
         <TextView
@@ -81,10 +81,10 @@
             tools:text="Tuesday, 12 Apr 2022" />
 
         <com.rafaelmfer.weatherforecast.customviews.WeatherTodayInfoView
-            android:id="@+id/inc_home_weather_today_information"
+            android:id="@+id/wti_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/inc_weather_min_max_today"
+            app:layout_constraintBottom_toTopOf="@id/wmm_today"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_home_today_date"
@@ -94,36 +94,36 @@
             tools:temperature="84.0 ºF" />
 
         <com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
-            android:id="@+id/inc_weather_min_max_today"
+            android:id="@+id/wmm_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:dayOfWeek="@string/today"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/inc_weather_min_max_tomorrow"
+            app:layout_constraintEnd_toStartOf="@id/wmm_tomorrow"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/inc_home_weather_today_information"
+            app:layout_constraintTop_toBottomOf="@id/wti_home"
             tools:text="82/86.2ºF" />
 
         <com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
-            android:id="@+id/inc_weather_min_max_tomorrow"
+            android:id="@+id/wmm_tomorrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:dayOfWeek="@string/tomorrow"
-            app:layout_constraintBottom_toBottomOf="@id/inc_weather_min_max_today"
+            app:layout_constraintBottom_toBottomOf="@id/wmm_today"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/inc_weather_min_max_tomorrow"
-            app:layout_constraintTop_toTopOf="@id/inc_weather_min_max_today"
+            app:layout_constraintStart_toEndOf="@id/wmm_tomorrow"
+            app:layout_constraintTop_toTopOf="@id/wmm_today"
             tools:text="82/86.2ºF" />
 
         <com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
-            android:id="@+id/inc_weather_min_max_after_tomorrow"
+            android:id="@+id/wmm_after_tomorrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:dayOfWeek="@string/friday"
-            app:layout_constraintBottom_toBottomOf="@id/inc_weather_min_max_today"
+            app:layout_constraintBottom_toBottomOf="@id/wmm_today"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/inc_weather_min_max_tomorrow"
-            app:layout_constraintTop_toTopOf="@id/inc_weather_min_max_today"
+            app:layout_constraintStart_toEndOf="@id/wmm_tomorrow"
+            app:layout_constraintTop_toTopOf="@id/wmm_today"
             tools:text="82/86.2ºF" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,11 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import com.rafaelmfer.weatherforecast.R
 import com.rafaelmfer.weatherforecast.customviews.WeatherMinMaxByDayView
+import com.rafaelmfer.weatherforecast.data.remote.response.Current
 import com.rafaelmfer.weatherforecast.data.remote.response.Day
 import com.rafaelmfer.weatherforecast.data.remote.response.ForecastResponse
 import com.rafaelmfer.weatherforecast.data.remote.response.SearchAutoCompleteResponseItem
 import com.rafaelmfer.weatherforecast.data.repository.State
 import com.rafaelmfer.weatherforecast.databinding.ActivityHomeWeatherForecastBinding
+import com.rafaelmfer.weatherforecast.extensions.get12hoursTime
+import com.rafaelmfer.weatherforecast.extensions.getDayOfWeekWithFullDate
 import com.rafaelmfer.weatherforecast.extensions.gone
 import com.rafaelmfer.weatherforecast.extensions.hideKeyboard
 import com.rafaelmfer.weatherforecast.extensions.onSingleClick
@@ -24,9 +27,6 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
@@ -46,14 +46,6 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
     private fun ActivityHomeWeatherForecastBinding.onViewCreated() {
         observables()
         setupSearchBoxContainer()
-        mbtHomeSearch.onSingleClick {
-            clSearch.visible
-            showSearchBox()
-        }
-
-        mbtBackSearch.onSingleClick {
-            hideSearchBox()
-        }
     }
 
     private fun ActivityHomeWeatherForecastBinding.observables() {
@@ -77,35 +69,36 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
             is State.Success -> {
                 pbHomeWeatherForecast.gone
                 groupHomeWeatherForecast.visible
-                val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH)
-                val outputFormat = SimpleDateFormat("h:mm a", Locale.ENGLISH)
-                val time = inputFormat.parse(state.model.location.localtime)
-                time?.let { tvHomeClock.text = outputFormat.format(it) }
-                tvHomeCity.text = state.model.location.name
-                val date = LocalDate.parse(state.model.forecast.forecastDay[0].date)
-                val dayOfWeek = date.dayOfWeek.toString()
-                    .lowercase(Locale.getDefault())
-                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-                tvHomeTodayDate.text = "$dayOfWeek, ${date.format(DateTimeFormatter.ofPattern("dd MMM yyyy"))}"
 
-                incHomeWeatherTodayInformation.apply {
-                    val current = state.model.current
-                    setWeatherImage("${getString(R.string.protocol_https)}${current.condition.icon}")
-                    val tempF = current.tempF.toString()
-                    setTemperature(getString(R.string.fahrenheit, tempF).toSpannableStringBuilder().sectionTextBold(tempF))
-                    setCitation(getString(R.string.weather_citation, current.condition.text.lowercase(Locale.getDefault())))
-                    setForecastWindValue(getString(R.string.wind_unit, current.windMph.toString()))
-                    setForecastDropletValue("${current.humidity}%")
+                with(state.model.location) {
+                    tvHomeClock.text = get12hoursTime(localtime)
+                    tvHomeCity.text = name
+                    tvHomeTodayDate.text = getDayOfWeekWithFullDate(localtime)
                 }
 
-                incWeatherMinMaxToday.setupWeatherImageAndMinMaxTemp(state.model.forecast.forecastDay[0].day)
-                incWeatherMinMaxTomorrow.setupWeatherImageAndMinMaxTemp(state.model.forecast.forecastDay[1].day)
-                incWeatherMinMaxAfterTomorrow.setupWeatherImageAndMinMaxTemp(state.model.forecast.forecastDay[2].day)
+                loadWeatherTodayInfo(state.model.current)
+
+                with(state.model.forecast) {
+                    wmmToday.setupWeatherImageAndMinMaxTemp(forecastDay[0].day)
+                    wmmTomorrow.setupWeatherImageAndMinMaxTemp(forecastDay[1].day)
+                    wmmAfterTomorrow.setupWeatherImageAndMinMaxTemp(forecastDay[2].day)
+                }
             }
             is State.Error -> {
                 pbHomeWeatherForecast.gone
                 groupHomeWeatherForecast.gone
             }
+        }
+    }
+
+    private fun ActivityHomeWeatherForecastBinding.loadWeatherTodayInfo(current: Current) {
+        wtiHome.apply {
+            setWeatherImage("${getString(R.string.protocol_https)}${current.condition.icon}")
+            val tempF = current.tempF.toString()
+            setTemperature(getString(R.string.fahrenheit, tempF).toSpannableStringBuilder().sectionTextBold(tempF))
+            setCitation(getString(R.string.weather_citation, current.condition.text.lowercase(Locale.getDefault())))
+            setForecastWindValue(getString(R.string.wind_unit, current.windMph.toString()))
+            setForecastDropletValue("${current.humidity}%")
         }
     }
 
@@ -146,6 +139,15 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
     }
 
     private fun ActivityHomeWeatherForecastBinding.setupSearchBoxContainer() {
+        mbtHomeSearch.onSingleClick {
+            clSearch.visible
+            showSearchBox()
+        }
+
+        mbtBackSearch.onSingleClick {
+            hideSearchBox()
+        }
+
         Observable.create<String> { emitter ->
             tieSearchBox.doOnTextChanged { text, _, _, _ ->
                 text?.let {
