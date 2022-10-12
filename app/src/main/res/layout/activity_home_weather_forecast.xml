@@ -2,10 +2,10 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/srl_home_weather"
-    app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue_astronaut"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue_astronaut">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                 app:constraint_referenced_ids="tv_home_clock, tv_home_city, tv_home_today_date,
             wti_home, wmm_today, wmm_tomorrow,
             wmm_after_tomorrow"
-                tools:visibility="visible" />
+                tools:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_home_clock"
@@ -145,7 +145,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:alpha="1"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/mbt_back_search"
@@ -249,6 +249,22 @@
                 tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_home_weather_forecast_error_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Error trying to get the forecast\nSwipe down to refresh" />
 
         <ProgressBar
             android:id="@+id/pb_home_weather_forecast"

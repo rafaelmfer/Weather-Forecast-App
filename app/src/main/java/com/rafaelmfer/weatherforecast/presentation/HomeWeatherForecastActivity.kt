@@ -66,10 +66,12 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
             is State.Loading -> {
                 pbHomeWeatherForecast.visible
                 groupHomeWeatherForecast.gone
+                tvHomeWeatherForecastErrorMessage.gone
             }
             is State.Success -> {
                 pbHomeWeatherForecast.gone
                 groupHomeWeatherForecast.visible
+                tvHomeWeatherForecastErrorMessage.gone
                 srlHomeWeather.isRefreshing = false
 
                 with(state.model.location) {
@@ -90,6 +92,11 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
                 srlHomeWeather.isRefreshing = false
                 pbHomeWeatherForecast.gone
                 groupHomeWeatherForecast.gone
+                tvHomeWeatherForecastErrorMessage.apply {
+                    visible
+                    val message = if (state.message.isNullOrBlank()) getString(R.string.error) else state.message
+                    text = "${message}\n${getString(R.string.swipe_to_refresh)}"
+                }
             }
         }
     }
