@@ -5,7 +5,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-private const val serverPattern = "yyyy-MM-dd HH:mm"
+private const val serverPattern = "yyyy-MM-dd H:mm"
 
 fun get12hoursTime(date: String): String? {
     val inputFormat = SimpleDateFormat(serverPattern, Locale.ENGLISH)
