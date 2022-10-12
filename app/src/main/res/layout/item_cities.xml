@@ -14,7 +14,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="12dp"
         android:lineSpacingExtra="8sp"
-        android:textColor="#444E72"
+        android:textColor="@color/blue_astronaut"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
