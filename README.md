@@ -57,10 +57,6 @@ temperature). You can do city search for look your city's forecast
   With coroutines it is possible to perform asynchronous tasks without changing the code flow of the
   application. Simplifies code by abstracting all the complexity of using threads
 
-- **Room:**
-  Room Database is one of the existing libraries within the “Android JetPack” suite, it helps
-  developers creating an abstraction of database layers (SQLite) to store information.
-
 - **Kotlin KTS:**
   Using Kotlin KTS we can take advantage of the application configuration using the kotlin language
   in our gradle file. This makes our configuration even easier
