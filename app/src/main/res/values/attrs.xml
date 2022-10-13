@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WeatherMinMaxByDayView">
+        <attr name="text" format="string" />
+        <attr name="dayOfWeek" format="string" />
+    </declare-styleable>
+    <declare-styleable name="WeatherTodayInfoView">
+        <attr name="temperature" format="string" />
+        <attr name="citation" format="string" />
+        <attr name="forecastWind" format="string" />
+        <attr name="forecastDroplet" format="string" />
+    </declare-styleable>
+</resources>
