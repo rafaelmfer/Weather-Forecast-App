@@ -132,7 +132,6 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
                         viewModel.getForecast(city)
                         rvSearchCities.gone
                         mbtSearchBoxCollapse.gone
-                        hideKeyboard()
                         hideSearchBox()
                     }
                 }
@@ -196,6 +195,7 @@ class HomeWeatherForecastActivity : AppCompatActivity() {
 
         tieSearchBox.setText("")
         clearCityList()
+        hideKeyboard()
     }
 
     private fun ActivityHomeWeatherForecastBinding.showSearchBox() {
